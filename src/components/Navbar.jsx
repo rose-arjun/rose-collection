@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import "./navbar.css";
+import { useNavigate } from "react-router-dom";
 import {
   FiSearch,
   FiHeart,
@@ -15,6 +16,7 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("menu");
   const { cart } = useContext(CartContext)
+  const navigate=useNavigate();
 
   return (
     <>
@@ -75,7 +77,11 @@ export default function Navbar() {
               <FiHeart />
             </button>
 
-            <button className="icon-button" style={{ position: "relative" }}>
+            <button className="icon-button" 
+            style={{ position: "relative" }}
+            onClick={()=>{
+            console.log("Cart Clicked");
+             navigate("/cart");}}>
               <FiShoppingCart />
 
               {cart.length > 0 && (

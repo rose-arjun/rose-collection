@@ -7,6 +7,7 @@ export default function CartProvider({children})
     const [cart,setCart]=useState([]);
 
     const addToCart=(product)=>{
+        console.log(product)
         setCart([...cart,product]);
     };
     const removeFromCart=(id)=>{
@@ -17,7 +18,8 @@ export default function CartProvider({children})
         
         value={
             {cart,
-                addToCart
+                addToCart,
+                removeFromCart
             }
         }
         >
