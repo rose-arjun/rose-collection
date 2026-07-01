@@ -18,7 +18,6 @@ export default function CategoryPage() {
 
             <aside className="sidebar">
                 <h3>Categories</h3>
-
                 <p>Anarkali</p>
                 <p>Sarees</p>
                 <p>Kurti</p>

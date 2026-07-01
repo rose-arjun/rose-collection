@@ -16,6 +16,12 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("menu");
   const { cart } = useContext(CartContext)
+  const totalItems=cart.reduce(
+    (sum,item)=> sum+item.quantity,0
+  );
+
+
+
   const navigate=useNavigate();
 
   return (
@@ -84,9 +90,9 @@ export default function Navbar() {
              navigate("/cart");}}>
               <FiShoppingCart />
 
-              {cart.length > 0 && (
+              {totalItems > 0 && (
                 <span className="cart-count">
-                  {cart.length}
+                  {totalItems}
                 </span>
               )}
               </button>

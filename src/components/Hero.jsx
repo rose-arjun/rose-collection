@@ -15,10 +15,10 @@ export default function Hero() {
   useEffect(() => {
     const interval = setInterval(() => {
       setIndex((prev) => (prev + 1) % images.length);
-    }, 5000);
+  }, 5000);
 
     return () => clearInterval(interval);
-  }, []);
+  },[]);
 
   return (
     <section className="hero">
