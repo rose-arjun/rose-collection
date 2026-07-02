@@ -7,6 +7,7 @@ import CategoryPage from "./pages/CategoryPage";
 import ProductPage from "./pages/ProductPage";
 import Footer from "./components/Footer";
 import CartPage from "./pages/CartPage";
+import CheckoutPage from "./pages/CheckoutPage";
 
 
 export default function App()
@@ -20,6 +21,7 @@ export default function App()
       <Route path="/category/:name" element={<CategoryPage />}/>
       <Route path="/product/:id" element={<ProductPage/>}/>
       <Route path="/cart" element={<CartPage/>} />
+      <Route path="/checkout" element={<CheckoutPage/>}/>
     
     </Routes>    
     <Footer/>

@@ -3,14 +3,15 @@ import { CartContext } from "../context/CartContext";
 import {Link} from "react-router-dom";
 import { FiShoppingBag } from "react-icons/fi";
 import "./cartpage.css"
-
+import { useNavigate } from "react-router-dom";
 export default function CartPage() {
 
     const { cart, removeFromCart,increaseQuantity,decreaseQuantity } = useContext(CartContext);
     const total = cart.reduce(
         (sum, item) => sum + item.price * item.quantity, 0
     );
-
+    
+    const navigate=useNavigate();
 
     if(cart.length===0){
     return (
@@ -109,7 +110,7 @@ export default function CartPage() {
                         <span>₹{total}</span>
                     </div>
 
-                    <button className="checkout-btn">
+                    <button className="checkout-btn" onClick={()=> navigate("/checkout")}>
                         PROCEED TO CHECKOUT
                     </button>
                     <p className="summary-note">Shipping & taxes calculated at checkout</p>
