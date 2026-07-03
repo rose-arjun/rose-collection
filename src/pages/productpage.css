@@ -182,3 +182,54 @@ font-weight: 600;
     color: #666;
     line-height: 1.5;
 }
+
+.related-products{
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 0 40px 60px;
+}
+.related-products h2{
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 32px;
+}
+.related-grid{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap:25px;
+}
+.related-card{
+    cursor: pointer;
+    transition: .3s;
+}
+.related-card img{
+    width: 100%;
+    border-radius: 12px;
+}
+.related-card h3{
+    margin: 12px 0 6px;
+    font-size: 18px;
+}
+
+.related-card p{
+    color: #8b0000;
+    font-weight: 600;
+}
+
+.related-card:hover{
+    transform: translateY(-5px);
+}
+
+@media(max-width:768px){
+    .related-grid{
+        grid-template-columns: 1fr;
+    }
+}
+
+
+
+
+
+
+
+
