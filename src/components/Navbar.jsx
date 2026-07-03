@@ -12,15 +12,26 @@ import {
 import { FaWhatsapp } from "react-icons/fa";
 import { CartContext } from "../context/CartContext";
 
+
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("menu");
-  const { cart } = useContext(CartContext)
-  const totalItems=cart.reduce(
-    (sum,item)=> sum+item.quantity,0
-  );
+ 
+  const { 
+    cart,
+  removeFromCart,
+increaseQuantity,
+decreaseQuantity } = useContext(CartContext)
+
+const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+const cartTotal = cart.reduce(
+  (sum, item) => sum + item.price * item.quantity,
+  0
+);
 
 
+  const [cartOpen, setCartOpen]=useState(false)
 
   const navigate=useNavigate();
 
@@ -83,22 +94,117 @@ export default function Navbar() {
               <FiHeart />
             </button>
 
-            <button className="icon-button" 
-            style={{ position: "relative" }}
-            onClick={()=>{
-            console.log("Cart Clicked");
-             navigate("/cart");}}>
-              <FiShoppingCart />
+            <button
+            className="icon-button"
+            style={{position: "relative"}}
+            onClick={()=>setCartOpen(true)}>
+              <FiShoppingCart/>
 
-              {totalItems > 0 && (
-                <span className="cart-count">
-                  {totalItems}
-                </span>
+              {totalItems>0 && (
+                <span className="cart-count">{totalItems}</span>
               )}
-              </button>
+
+            </button>
           </div>
         </div>
       </header>
+
+      {cartOpen && (
+  <>
+    <div
+      className="cart-overlay"
+      onClick={() => setCartOpen(false)}
+    ></div>
+
+    <div className="cart-drawer">
+      <div className="cart-drawer-header">
+        <h3>Shopping Cart ({totalItems})</h3>
+        <button onClick={() => setCartOpen(false)}>
+          ×
+        </button>
+      </div>
+
+      <div className="cart-drawer-items">
+        {cart.map((item) => (
+          <div className="cart-drawer-item" key={`${item.id}-${item.size}`}>
+            <img src={item.image} alt={item.name}  
+             onClick={()=>{setCartOpen(false)
+              navigate(`/product/${item.id}`)
+            }}
+            style={{cursor:"pointer"}}
+            />
+
+            <div>
+              <h4>{item.name}</h4>
+              <p>Size: {item.size}</p>
+              <strong>₹{item.price}</strong>
+
+              <div className="drawer-qty">
+                <button onClick={() => decreaseQuantity(item.id, item.size)}>
+                  -
+                </button>
+                <span>{item.quantity}</span>
+                <button onClick={() => increaseQuantity(item.id, item.size)}>
+                  +
+                </button>
+              </div>
+            </div>
+
+            <button
+              className="drawer-remove"
+              onClick={() => removeFromCart(item.id, item.size)}
+            >
+              Remove
+            </button>
+          </div>
+        ))}
+      </div>
+
+      <div className="cart-drawer-footer">
+        <div>
+          <span>Subtotal</span>
+          <strong>₹{cartTotal}</strong>
+        </div>
+
+        <button onClick={() => {
+          setCartOpen(false)
+          navigate("/cart")}}>
+          VIEW CART
+        </button>
+        <button onClick={() => {
+          setCartOpen(false)
+          navigate("/checkout")}}>
+          CHECKOUT
+        </button>
+      </div>
+    </div>
+  </>
+)}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       {open && (
         <>

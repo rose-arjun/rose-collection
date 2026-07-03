@@ -1,0 +1,56 @@
+.success-page{
+    min-height:70vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:180px 20px 80px;
+}
+
+.success-card{
+    width:500px;
+    background:white;
+    padding:50px;
+    text-align:center;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+    border-radius:10px;
+}
+
+.success-icon{
+    font-size:80px;
+    color:green;
+    margin-bottom:20px;
+}
+
+.success-card h1{
+    margin-bottom:15px;
+}
+
+.success-card p{
+    color:#666;
+    line-height:1.7;
+}
+
+.success-buttons{
+    margin-top:35px;
+    display:flex;
+    gap:15px;
+    justify-content:center;
+}
+
+.home-btn,
+.cart-btn-success{
+    padding:14px 25px;
+    border:none;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.home-btn{
+    background:black;
+    color:white;
+}
+
+.cart-btn-success{
+    background:#8b0000;
+    color:white;
+}
