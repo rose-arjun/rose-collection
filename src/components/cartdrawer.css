@@ -1,0 +1,169 @@
+.cart-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.55);
+  z-index:1000;
+}
+
+.cart-drawer{
+  position:fixed;
+  top:0;
+  right:0;
+  width:390px;
+  height:100vh;
+  background:white;
+  z-index:1000;
+  display:flex;
+  flex-direction:column;
+  box-shadow:-5px 0 20px rgba(0,0,0,.15);
+}
+
+.cart-drawer-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:18px 20px;
+  border-bottom:1px solid #eee;
+}
+
+.cart-drawer-header h3{
+  margin:0;
+  font-size:18px;
+}
+
+.cart-drawer-header button{
+  background:none;
+  border:none;
+  font-size:30px;
+  cursor:pointer;
+}
+
+.cart-drawer-items{
+  flex:1;
+  overflow-y:auto;
+  padding:18px;
+}
+
+.cart-drawer-item{
+  display:flex;
+  gap:14px;
+  padding:16px 0;
+  border-bottom:1px solid #eee;
+}
+
+.cart-drawer-item img{
+  width:80px;
+  height:100px;
+  object-fit:cover;
+  border-radius:8px;
+}
+
+.drawer-content{
+  flex:1;
+}
+
+.drawer-content h4{
+  margin:0 0 6px;
+  font-size:15px;
+}
+
+.drawer-content p{
+  margin:0 0 6px;
+  color:#666;
+  font-size:14px;
+}
+
+.drawer-content strong{
+  display:block;
+  margin-bottom:10px;
+}
+
+.drawer-qty{
+  display:flex;
+  align-items:center;
+  margin-bottom:10px;
+}
+
+.drawer-qty button,
+.drawer-qty span{
+  width:30px;
+  height:30px;
+  border:1px solid #ddd;
+  background:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.drawer-qty button{
+  cursor:pointer;
+}
+
+.drawer-remove{
+  background:white;
+  border:1px solid #ddd;
+  padding:6px 12px;
+  cursor:pointer;
+  font-size:13px;
+}
+
+.drawer-remove:hover{
+  background:#111;
+  color:white;
+}
+
+.cart-drawer-footer{
+  padding:18px;
+  border-top:1px solid #eee;
+}
+
+.drawer-total{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:15px;
+  font-size:18px;
+}
+
+.cart-drawer-footer button{
+  width:100%;
+  padding:14px;
+  margin-top:10px;
+  cursor:pointer;
+  font-weight:700;
+  border:1px solid #111;
+  background:white;
+}
+
+.cart-drawer-footer button:last-child{
+  background:#111;
+  color:white;
+}
+
+.drawer-empty{
+  text-align:center;
+  padding:80px 20px;
+}
+
+.drawer-empty h2{
+  margin-bottom:10px;
+}
+
+.drawer-empty p{
+  color:#666;
+  margin-bottom:25px;
+}
+
+.drawer-empty button{
+  background:#111;
+  color:white;
+  border:none;
+  padding:13px 25px;
+  cursor:pointer;
+  font-weight:700;
+}
+
+@media(max-width:500px){
+  .cart-drawer{
+    width:100%;
+  }
+}

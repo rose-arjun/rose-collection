@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./hero.css";
-
+import "../pages/CategoryPage"
+import { useNavigate } from "react-router-dom";
 export default function Hero() {
 
   const images = [
@@ -11,6 +12,8 @@ export default function Hero() {
   ];
 
   const [index, setIndex] = useState(0);
+
+  const navigate=useNavigate();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -27,7 +30,10 @@ export default function Hero() {
         <h1>New Collection Arrived..</h1>
         <p>Elegant Western & Ethnic Wear for Every Occasion</p>
 
-        <button>Shop Now</button>
+        <button
+        onClick={()=>{
+          navigate("/collections")}
+        }>Shop Now</button>
       </div>
     </section>
   );
