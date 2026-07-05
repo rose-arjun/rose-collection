@@ -1,25 +1,28 @@
 import React, { useContext } from "react";
 import { CartContext } from "../context/CartContext";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FiShoppingBag } from "react-icons/fi";
 import "./cartpage.css"
 import { useNavigate } from "react-router-dom";
 export default function CartPage() {
 
-    const { cart, removeFromCart,increaseQuantity,decreaseQuantity } = useContext(CartContext);
+    const { cart, removeFromCart,
+        increaseQuantity,
+        decreaseQuantity, clearCart } = useContext(CartContext);
     const total = cart.reduce(
         (sum, item) => sum + item.price * item.quantity, 0
     );
-    
-    const navigate=useNavigate();
 
-    if(cart.length===0){
-    return (
+    const navigate = useNavigate();
+
+
+    if (cart.length === 0) {
+        return (
             <div className="empty-cart">
                 <div className="empty-cart-box">
 
                     <div className="empty-icon">
-                        <FiShoppingBag/>
+                        <FiShoppingBag />
                     </div>
 
                     <h2>Your cart is empty</h2>
@@ -33,23 +36,24 @@ export default function CartPage() {
                         </button>
                     </Link>
                 </div>
-                
+
             </div>
-            );
-            }
-    return(
+        );
+    }
+    return (
         <>
             <div className="cart-banner">
                 <h1>Shopping Cart</h1>
-                <p>Home,Cart</p>
+                <p>Home › Cart</p>
             </div>
             <div className="cart-page">
                 {/* Left Side */}
                 <div className="cart-left">
+
                     <div className="cart-header">
                         <p>Product</p>
                         <p>Price</p>
-                        <p>Quanitity</p>
+                        <p>Quantity</p>
                         <p>Total</p>
                     </div>
                     {cart.map((item => (
@@ -57,33 +61,45 @@ export default function CartPage() {
                             <div className="cart-product">
                                 <img src={item.image} alt={item.name} />
                                 <div>
-                                    <h4>{item.name}</h4>
+                                    <h4 className="product-name"
+                                    onClick={()=> navigate(`/product/${item.id}`)}>{item.name}</h4>
                                     <p>Size:{item.size}</p>
 
                                     <button
                                         className="remove-btn"
-                                        onClick={() => removeFromCart(item.id,item.size) }
+                                        onClick={() => removeFromCart(item.id, item.size)}
                                     >
                                         Remove
                                     </button>
                                 </div>
                             </div>
 
-                            <p className="cart-price">₹{item.price}</p>
+                            <p className="cart-price">Rs. {item.price}.00</p>
                             <div className="qty-box">
-                                <button 
-                                onClick={()=>decreaseQuantity(item.id, item.size)}>
+                                <button
+                                    onClick={() => decreaseQuantity(item.id, item.size)}>
                                     -
                                 </button>
                                 <span>{item.quantity}</span>
-                                <button 
-                                onClick={()=>increaseQuantity(item.id,item.size)}>
+                                <button
+                                    onClick={() => increaseQuantity(item.id, item.size)}>
                                     +
                                 </button>
                             </div>
-                            <p className="cart-total">₹{item.price * item.quantity}</p>
+                            <p className="cart-total">Rs. {item.price * item.quantity}.00</p>
                         </div>
                     )))}
+                    <div className="cart-actions">
+                        <button className="continue-shopping-btn" onClick={() => navigate("/")}>
+                            ← CONTINUE SHOPPING
+                        </button>
+
+                        <button className="clear-cart-btn" onClick={clearCart}>
+                            CLEAR CART
+                        </button>
+
+
+                    </div>
 
                 </div>
 
@@ -100,7 +116,7 @@ export default function CartPage() {
                         <span className="free-text">FREE</span>
                     </div>
 
-                    <div className="summmary-row">
+                    <div className="summary-row">
                         <span>Tax</span>
                         <span>Calculated at checkout</span>
 
@@ -110,10 +126,20 @@ export default function CartPage() {
                         <span>₹{total}</span>
                     </div>
 
-                    <button className="checkout-btn" onClick={()=> navigate("/checkout")}>
+                    <button className="checkout-btn" onClick={() => navigate("/checkout")}>
                         PROCEED TO CHECKOUT
                     </button>
                     <p className="summary-note">Shipping & taxes calculated at checkout</p>
+
+                    <div className="summary-features">
+                        <p>♡ Secure Checkout</p>
+                        <p>🛒 Free Shipping All Over India</p>
+                        <p>☆ Premium Quality</p>
+                        
+                    </div>
+
+
+
                 </div>
             </div>
 

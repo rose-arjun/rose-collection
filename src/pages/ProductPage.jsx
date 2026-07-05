@@ -1,8 +1,12 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { products } from "../data/products";
-import { useEffect,useState, useContext } from "react";
+import { useEffect, useState, useContext } from "react";
 import "./productpage.css";
 import { CartContext } from "../context/CartContext";
+import { FiHeart } from "react-icons/fi";
+import { WishlistContext } from "../context/WishlistContext";
+import { FaRegHeart, FaHeart } from "react-icons/fa";
+
 export default function ProductPage() {
 
     const { id } = useParams();
@@ -27,6 +31,15 @@ export default function ProductPage() {
     const [size, setSize] = useState("");
     const [openSection, setOpenSection] = useState("");
     const { addToCart } = useContext(CartContext);
+    const {
+        addToWishlist,
+        removeFromWishlist,
+        isInWishlist,
+    } = useContext(WishlistContext);
+
+
+
+
 
     const handleAddToCart = () => {
         if (!size) {
@@ -49,18 +62,38 @@ export default function ProductPage() {
     };
 
 
-    useEffect(()=>{
+    useEffect(() => {
         setQuantity(1);
         setSize("");
         setOpenSection("");
         window.scrollTo({
-            top:0,
+            top: 0,
             behavior: "smooth",
         });
-    },[id]);
+    }, [id]);
+
+
+    const handleWishlist = () => {
+        if (isInWishlist(product.id)) {
+            removeFromWishlist(product.id);
+        } else {
+            addToWishlist(product);
+        }
+    };
 
 
 
+
+
+    const toggleWishlist = (product) => {
+        if (isInWishlist(product.id)) {
+            removeFromWishlist(product.id);
+        } else {
+            addToWishlist(product)
+        }
+    };
+
+    const {openCart}=useContext(CartContext);
 
 
 
@@ -71,15 +104,38 @@ export default function ProductPage() {
             <div className="product-page">
                 {/* Left side-product image */}
 
-                <div className="product-image">
-                    <img src={product.image} alt={product.name} />
+                <div className="product-image-box">
+                    <img
+                        src={product.image}
+                        alt={product.name}
+                        className="product-image"
+                    />
+
+                    <button
+                        className="wishlist-btn"
+                        onClick={() => {
+                            if (isInWishlist(product.id)) {
+                                removeFromWishlist(product.id);
+                            } else {
+                                addToWishlist(product);
+                            }
+                        }}
+                    >
+                        {isInWishlist(product.id) ? (
+                            <FaHeart color="#ff4d8d" />
+                        ) : (
+                            <FaRegHeart />
+                        )}
+                    </button>
                 </div>
+
 
                 {/* Right Side- Product Details */}
 
                 <div className="product-info">
+
                     <h1>{product.name}</h1>
-                    <h2>Rs.{product.price}.0</h2>
+                    <h2>Rs.{product.price}.00</h2>
                     <p>Color: Red</p>
 
                     <div className="product-size">
@@ -101,7 +157,7 @@ export default function ProductPage() {
                     </div>
 
                     <div className="product-quantity">
-                        <h3>Quanitity</h3>
+                        <h3>Quantity</h3>
                         <div className="quantity-box">
                             <button
                                 onClick={() => quantity > 1 && setQuantity(quantity - 1)}
@@ -126,7 +182,11 @@ export default function ProductPage() {
                         </button>
                         <button
                             className="buy-btn"
-                            onClick={handleAddToCart}
+                            onClick={() => {
+                                handleAddToCart()
+                                navigate("/checkout")
+                            }}
+
                         >BUY NOW
                         </button>
                     </div>
@@ -205,33 +265,55 @@ export default function ProductPage() {
 
             <section className="related-products">
                 <h2>Recommended Products</h2>
-                <div className="related-grid">
 
-                    {
-                        relatedProducts.map((item) => (
-                            <div
-                                className="related-card"
-                                key={item.id}
-                                onClick={()=> 
-                                navigate(`/product/${item.id}`)}
-                            >
+                <div className="related-grid">
+                    {relatedProducts.map((item) => (
+                        <div className="related-card" key={item.id}>
+                            <div className="related-img-box">
                                 <img
                                     src={item.image}
                                     alt={item.name}
-                                    onClick={() => {
-                                        //console.log("clicked")
-                                        navigate(`/product/${item.id}`)
-                                    }}
-                                    style={{cursor:"pointer"}}
-
+                                    onClick={() => navigate(`/product/${item.id}`)}
                                 />
 
-                                <h3>{item.name}</h3>
-                                <p>₹{item.price}</p>
+                                <button
+                                    className="related-heart"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        toggleWishlist(item);
+                                    }}
+                                    
+                                >
+                                    {isInWishlist(item.id) ? (
+                                        <FaHeart color="#ff4d8d" />
+                                    ) : (
+                                        <FaRegHeart />
+                                    )}
+                                </button>
                             </div>
-                        ))
-                    }
 
+                            <h3 onClick={() => navigate(`/product/${item.id}`)}>
+                                {item.name}
+                            </h3>
+
+                            <p>₹{item.price}</p>
+
+                            <button
+                                className="related-add-cart"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    addToCart({
+                                        ...item,
+                                        quantity: 1,
+                                        size: "M",
+                                    });
+                                    openCart();
+                                }}
+                            >
+                                ADD TO CART
+                            </button>
+                        </div>
+                    ))}
                 </div>
             </section>
 

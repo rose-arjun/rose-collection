@@ -9,6 +9,7 @@ import Footer from "./components/Footer";
 import CartPage from "./pages/CartPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import OrderSuccessPage from "./pages/OrderSuccessPage";
+import WishlistPage from "./pages/WishlistPage";
 
 
 export default function App()
@@ -23,6 +24,7 @@ export default function App()
       <Route path="/category/:name" element={<CategoryPage />}/>
       <Route path="/product/:id" element={<ProductPage/>}/>
 
+      <Route path="/wishlist" element={<WishlistPage/>}/>
       <Route path="/cart" element={<CartPage/>} />
       <Route path="/checkout" element={<CheckoutPage/>}/>
       <Route path="/order-success" element={<OrderSuccessPage/>}></Route>

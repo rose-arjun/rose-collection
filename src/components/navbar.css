@@ -20,22 +20,21 @@
 .wa-icon {
   color: #25d366;
 }
-
-.navbar {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
-  gap: 30px;
-  padding: 20px 30px;
-  background: white;
-  border-bottom: 1px solid #eee;
-  width: 100%;
-  box-sizing: border-box;
-  position: fixed;
-  top: 40px;
-  left: 0;
-  z-index:999;
-  
+.navbar{
+    display:grid;
+    grid-template-columns:auto 1fr auto;
+    align-items:center;
+    height:80px;          /* Add this */
+    padding:0 30px;       /* Instead of 20px 30px */
+    background:white;
+    border-bottom:1px solid #eee;
+    width:100%;
+    box-sizing:border-box;
+    position:fixed;
+    top:40px;
+    left:0;
+    z-index:999;
+    box-shadow:0 2px 15px rgba(0,0,0,.08);
 }
 
 .logo-section {

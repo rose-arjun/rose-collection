@@ -2,25 +2,25 @@ import { createContext, useState, useEffect } from "react";
 
 export const CartContext = createContext();
 
-export default function CartProvider({children}) {
-    const [cart, setCart] = useState(()=>{
-        const savedCart=localStorage.getItem("cart");
-        
-        if(!savedCart || savedCart === "underfined"){
+export default function CartProvider({ children }) {
+    const [cart, setCart] = useState(() => {
+        const savedCart = localStorage.getItem("cart");
+
+        if (!savedCart || savedCart === "underfined") {
             return [];
         }
 
-        try{
+        try {
             return JSON.parse(savedCart);
-        }catch(error){
+        } catch (error) {
             return []
         }
     });
 
 
-    useEffect(()=>{
+    useEffect(() => {
         localStorage.setItem("cart", JSON.stringify(cart));
-    },[cart])
+    }, [cart])
 
     const addToCart = (product) => {
         setCart((prev) => {
@@ -76,19 +76,25 @@ export default function CartProvider({children}) {
     }
 
 
+    const [cartOpen, setCartOpen] = useState(false);
+
+    const openCart = () => setCartOpen(true);
+    const closeCart = () => setCartOpen(false);
     return (
         <CartContext.Provider
 
-            value={
-                {
-                    cart,
-                    addToCart,
-                    removeFromCart,
-                    increaseQuantity,
-                    decreaseQuantity,
-                    clearCart
-                }
-            }
+            value={{
+                cart,
+                addToCart,
+                removeFromCart,
+                increaseQuantity,
+                decreaseQuantity,
+                clearCart,
+                cartOpen,
+                setCartOpen,
+                openCart,
+                closeCart
+            }}
         >
             {children}
         </CartContext.Provider>

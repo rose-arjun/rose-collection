@@ -11,7 +11,7 @@ import {
 } from "react-icons/fi";
 import { FaWhatsapp } from "react-icons/fa";
 import { CartContext } from "../context/CartContext";
-
+import { WishlistContext } from "../context/WishlistContext";
 import SearchOverlay from "./SearchOverlay";
 import CartDrawer from "./CartDrawer";
 import MobileMenu from "./MobileMenu";
@@ -25,7 +25,14 @@ export default function Navbar() {
     cart,
     removeFromCart,
     increaseQuantity,
-    decreaseQuantity } = useContext(CartContext);
+    decreaseQuantity,
+    cartOpen,
+    openCart,
+    closeCart,
+    setCartOpen
+  } = useContext(CartContext);
+
+  const { wishlist } = useContext(WishlistContext);
 
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
@@ -35,7 +42,7 @@ export default function Navbar() {
   );
 
 
-  const [cartOpen, setCartOpen] = useState(false);
+  // const [cartOpen, setCartOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -91,24 +98,37 @@ export default function Navbar() {
         {/* Desktop Nav */}
         <div className="nav-section">
           <ul className="nav-links">
-            <li onClick={()=> navigate("/")}>HOME</li>
-            <li onClick={()=> navigate("/collections")}>SHOP ALL</li>
-            <li>CONTACT</li>
+            <li onClick={() => navigate("/")}>HOME</li>
+            <li onClick={() => navigate("/collections")}>SHOP ALL</li>
+            <li onClick={() => navigate("/contact")}>CONTACT</li>
           </ul>
 
           <div className="icon-group">
-            <button className="icon-button">
+            <button className="icon-button"
+              onClick={() => navigate("/login")}>
               <FiUser />
             </button>
 
 
-            <button className="icon-button">
-              <FiHeart />
+            <button
+              className="icon-button"
+              onClick={() => navigate("/wishlist")}>
+              <FiHeart
+
+              />
+              {
+                wishlist.length > 0 && (
+                  <span className="cart-count">
+                    {wishlist.length}
+                  </span>
+                )
+              }
+
             </button>
 
             <button
               className="icon-button"
-              onClick={() => setCartOpen(true)}>
+              onClick={openCart}>
               <FiShoppingCart />
 
               {totalItems > 0 && (

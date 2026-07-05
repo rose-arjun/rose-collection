@@ -1,9 +1,9 @@
 
-import "./CartDrawer.css";
+import "./cartdrawer.css";
 
 export default function CartDrawer({
   cartOpen,
-  setCartOpen,
+  closeCart,
   cart,
   totalItems,
   cartTotal,
@@ -11,6 +11,7 @@ export default function CartDrawer({
   increaseQuantity,
   decreaseQuantity,
   navigate,
+  setCartOpen
 }) {
   if (!cartOpen) return null;
 
@@ -40,7 +41,7 @@ export default function CartDrawer({
 
               <button
                 onClick={() => {
-                  setCartOpen(false);
+
                   navigate("/");
                 }}
               >
@@ -57,7 +58,7 @@ export default function CartDrawer({
                   src={item.image}
                   alt={item.name}
                   onClick={() => {
-                    setCartOpen(false);
+                    setCartOpen(false)
                     navigate(`/product/${item.id}`);
                   }}
                   style={{ cursor: "pointer" }}
@@ -71,74 +72,79 @@ export default function CartDrawer({
 
                   <strong>₹{item.price}</strong>
 
-                  <div className="drawer-qty">
+                  <div className="drawer-actions">
+
+                    <div className="drawer-qty">
+
+                      <button
+                        onClick={() =>
+                          decreaseQuantity(item.id, item.size)
+                        }
+                      >
+                        -
+                      </button>
+
+                      <span>{item.quantity}</span>
+
+                      <button
+                        onClick={() =>
+                          increaseQuantity(item.id, item.size)
+                        }
+                      >
+                        +
+                      </button>
+
+                    </div>
 
                     <button
+                      className="drawer-remove"
                       onClick={() =>
-                        decreaseQuantity(item.id, item.size)
+                        removeFromCart(item.id, item.size)
                       }
                     >
-                      -
+                      Remove
+                    </button>
+                  </div>
+
+                  </div>
+                </div>
+                ))
+          )}
+
+              </div>
+
+        {
+                cart.length > 0 && (
+                  <div className="cart-drawer-footer">
+
+                    <div className="drawer-total">
+                      <span>Subtotal</span>
+                      <strong>₹{cartTotal}</strong>
+                    </div>
+
+                    <button
+                      onClick={() => {
+                        setCartOpen(false)
+                        navigate("/cart");
+                      }}
+                    >
+                      VIEW CART
                     </button>
 
-                    <span>{item.quantity}</span>
-
                     <button
-                      onClick={() =>
-                        increaseQuantity(item.id, item.size)
-                      }
+                      onClick={() => {
+                        setCartOpen(false)
+                        navigate("/checkout");
+                      }}
                     >
-                      +
+                      CHECKOUT
                     </button>
 
                   </div>
-
-                  <button
-                    className="drawer-remove"
-                    onClick={() =>
-                      removeFromCart(item.id, item.size)
-                    }
-                  >
-                    Remove
-                  </button>
-
-                </div>
-              </div>
-            ))
-          )}
-
-        </div>
-
-        {cart.length > 0 && (
-          <div className="cart-drawer-footer">
-
-            <div className="drawer-total">
-              <span>Subtotal</span>
-              <strong>₹{cartTotal}</strong>
-            </div>
-
-            <button
-              onClick={() => {
-                setCartOpen(false);
-                navigate("/cart");
-              }}
-            >
-              VIEW CART
-            </button>
-
-            <button
-              onClick={() => {
-                setCartOpen(false);
-                navigate("/checkout");
-              }}
-            >
-              CHECKOUT
-            </button>
-
-          </div>
-        )}
+                )
+              }
 
       </div>
-    </>
-  );
+      </>
+      );
 }
