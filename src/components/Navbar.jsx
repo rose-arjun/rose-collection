@@ -99,7 +99,7 @@ export default function Navbar() {
         <div className="nav-section">
           <ul className="nav-links">
             <li onClick={() => navigate("/")}>HOME</li>
-            <li onClick={() => navigate("/collections")}>SHOP ALL</li>
+            <li onClick={() => navigate("/collections/all")}>SHOP ALL</li>
             <li onClick={() => navigate("/contact")}>CONTACT</li>
           </ul>
 

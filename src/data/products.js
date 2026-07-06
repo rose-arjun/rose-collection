@@ -58,7 +58,7 @@ export const products = [
   },
   {
     id: 9,
-    category: "sharara",
+    category: "sharara-set",
     name: "Sharara Set",
     price: 3999,
     image: "/ShararaSet.png"
@@ -86,7 +86,7 @@ export const products = [
   },
   {
     id: 13,
-    category: "partywear",
+    category: "party-wear",
     name: "Party Wear",
     price: 1999,
     image: "/partywear.png"
@@ -118,5 +118,21 @@ export const products = [
     price: 1799,
     image: "/p2.png"
   },
+    {
+    id: 18,
+    category: "best-seller",
+    name: "Party Wear",
+    price: 1999,
+    image: "/partywear.png"
+  },
+    {
+    id: 19,
+    category: "summer-kurti",
+    name: "Party Wear",
+    price: 1999,
+    image: "/partywear.png"
+  },
+
+
 
 ];

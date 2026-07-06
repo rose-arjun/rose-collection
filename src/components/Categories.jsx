@@ -25,7 +25,7 @@ export default function Categories(){
                 {categories.map((item,index)=>(
                     <div className="category-card"
                     key={item.slug}
-                    onClick={()=> navigate( `/category/${item.slug}`)}
+                    onClick={()=> navigate( `/collections/${item.slug}`)}
                     >
                         <img src={item.image} alt={item.name} />
                         <p>{item.name}</p>

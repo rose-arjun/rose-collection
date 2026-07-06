@@ -1,133 +1,171 @@
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { FiShoppingCart, FiMenu, FiX } from "react-icons/fi";
 import "./categorypage.css";
 import { products } from "../data/products";
-import { FiShoppingCart } from "react-icons/fi";
-import { useContext } from "react";
 import { WishlistContext } from "../context/WishlistContext";
 
+import ProductCard from "../components/ProductCard/ProductCard"
 export default function CategoryPage() {
   const { name } = useParams();
   const navigate = useNavigate();
+
   const {
     addToWishlist,
     removeFromWishlist,
     isInWishlist,
-  }=useContext(WishlistContext)
+  } = useContext(WishlistContext);
 
-  
+  const [showFilter, setShowFilter] = useState(false);
 
-  const filteredProducts = products.filter(
-    (product) => product.category === name
-  );
+  // Lock body scroll when filter drawer opens
+  useEffect(() => {
+    if (showFilter) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [showFilter]);
+
+  const filteredProducts =
+    name === "all"
+      ? products
+      : products.filter((product) => product.category === name);
 
   const toggleWishlist = (product) => {
     if (isInWishlist(product.id)) {
       removeFromWishlist(product.id);
     } else {
-      addToWishlist(product)
+      addToWishlist(product);
     }
   };
 
+  const categories = [
+    { label: "All Products", value: "all" },
+    { label: "Anarkali", value: "anarkali" },
+    { label: "Sarees", value: "sarees" },
+    { label: "Kurti", value: "kurti" },
+    { label: "Lehenga", value: "lehenga" },
+    { label: "Best Seller", value: "best-seller" },
+    { label: "Gown", value: "gown" },
+    { label: "Summer Kurti", value: "summer-kurti" },
+    { label: "Party Wear", value: "party-wear" },
+    { label: "Sharara Set", value: "sharara-set" },
+  ];
+
   return (
-    <div className="category-page">
-      <aside className="sidebar">
-        <h3>Categories</h3>
+    <>
+      {/* Overlay */}
 
-        <p>Anarkali</p>
-        <p>Sarees</p>
-        <p>Kurti</p>
-        <p>Lehenga</p>
-        <p>Best Seller</p>
-        <p>Gown</p>
-        <p>Summer Kurti</p>
-        <p>Party Wear</p>
-        <p>Sharara Set</p>
-        <p>Total Products</p>
+      {showFilter && (
+        <div
+          className="overlay"
+          onClick={() => setShowFilter(false)}
+        ></div>
+      )}
 
-        <h3>Availability</h3>
+      <div className="category-page">
 
-        <label>
-          <input type="checkbox" />
-          In Stock
-        </label>
-      </aside>
+        {/* Sidebar */}
 
-      <section className="products-section">
-        <div className="category-title">
-          <h1>{name}</h1>
-        </div>
+        <aside className={`sidebar ${showFilter ? "active" : ""}`}>
 
-        <div className="page-top">
-          <p>{filteredProducts.length} Products</p>
+          <div className="sidebar-header">
+            <h3>Categories</h3>
 
-          <select>
-            <option>Featured</option>
-            <option>Price Low to High</option>
-          </select>
-        </div>
+            <button
+              className="close-btn"
+              onClick={() => setShowFilter(false)}
+            >
+              <FiX />
+            </button>
+          </div>
 
-        <div className="products-grid">
-          {filteredProducts.map((product) => (
-            <div className="product-card" key={product.id}>
-              <div
-                className="product-img-box"
-                onClick={() => navigate(`/product/${product.id}`)}
-              >
-                <img 
-                className="product-image"
-                src={product.image} 
-                alt={product.name} 
-                />
-
-                <div className="hover-icons">
-                  {/* Wishlist */}
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      toggleWishlist(product);
-                    }}
-                  >
-                    {isInWishlist(product.id) ? (
-                      <FaHeart color="#ff4d8d" />
-                    ) : (
-                      <FaRegHeart />
-                    )}
-                  </button>
-
-                  {/* Cart */}
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      navigate(`/product/${product.id}`)
-                    }}
-                  >
-                    <FiShoppingCart />
-                  </button>
-                </div>
-
-                {/* Add To Cart */}
-                <button
-                  className="add-cart-btn"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    navigate(`/product/${product.id}`)
-                   
-                    
-                  }}
-                >
-                  ADD TO CART
-                </button>
-              </div>
-              <div className="product-info">
-              <h3>{product.name}</h3>
-              <p>₹{product.price}</p>
-              </div>
-            </div>
+          {categories.map((cat) => (
+            <p
+              key={cat.value}
+              className={name === cat.value ? "active-category" : ""}
+              onClick={() => {
+                navigate(`/collections/${cat.value}`);
+                setShowFilter(false);
+              }}
+            >
+              {cat.label}
+            </p>
           ))}
-        </div>
-      </section>
-    </div>
+
+          <h3>Availability</h3>
+
+          <label className="stock-check">
+            <input type="checkbox" />
+            In Stock
+          </label>
+
+        </aside>
+
+        {/* Products */}
+
+        <section className="products-section">
+
+          <div className="category-title">
+            <h1>
+              {name === "all"
+                ? "ALL PRODUCTS"
+                : name.replace("-", " ").toUpperCase()}
+            </h1>
+          </div>
+
+          {/* Top */}
+
+          <div className="page-top">
+
+            <button
+              className="filter-btn"
+              onClick={() => setShowFilter(true)}
+            >
+              <FiMenu />
+              FILTER
+            </button>
+
+            <p>{filteredProducts.length} Products</p>
+
+            <select>
+              <option>Best Selling</option>
+              <option>Newest</option>
+              <option>Price: Low to High</option>
+              <option>Price: High to Low</option>
+              <option>Name: A to Z</option>
+              <option>Name: Z to A</option>
+            </select>
+
+          </div>
+
+          {/* Grid */}
+
+          <div className="products-grid">
+
+            {filteredProducts.map((product) => (
+             
+             <ProductCard
+              key={product.id}
+              product={product}
+              navigate={navigate}
+              toggleWishlist={toggleWishlist}
+              isInWishlist={isInWishlist}
+            
+              />
+            ))}
+
+          </div>
+
+        </section>
+
+      </div>
+    </>
   );
 }
